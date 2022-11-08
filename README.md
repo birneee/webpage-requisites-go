@@ -3,6 +3,11 @@
 Extract webpage requisite URLs from HTML and CSS documents.
 Requisites are the resources a browser would load to render the web page.
 
+## Installation
+```bash
+go get github.com/birneee/webpage-requisites-go
+```
+
 ## Detected Requisites
 Requisites are:
 
