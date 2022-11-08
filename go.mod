@@ -1,4 +1,4 @@
-module github.com/birneee/webpacke-requisites-go
+module github.com/birneee/webpage-requisites-go
 
 go 1.19
 
