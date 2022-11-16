@@ -12,7 +12,7 @@ go get github.com/birneee/webpage-requisites-go
 Requisites are:
 
 - `src` of `img` elements, not starting with `data:`
-- `href` of `link` elements with `rel="stylesheet"`
+- `href` of `link` elements with `rel` "stylesheet", "manifest" or "shortcut icon"
 - `src` of `script` elements
 - `url` values in stylesheets, not starting with `data:`
 

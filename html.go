@@ -2,6 +2,7 @@ package webpage_requisites_go
 
 import (
 	"github.com/PuerkitoBio/goquery"
+	"golang.org/x/exp/slices"
 	"io"
 	"net/url"
 	"strings"
@@ -21,7 +22,9 @@ func GetHtmlRequisites(html io.Reader) ([]*url.URL, error) {
 		if !exists {
 			return
 		}
-		if strings.ToLower(rel) != "stylesheet" {
+		rel = strings.ToLower(rel)
+
+		if !slices.Contains([]string{"stylesheet", "manifest", "shortcut icon"}, rel) {
 			return
 		}
 		href, exists := selection.Attr("href")

@@ -1,7 +1,7 @@
 package webpage_requisites_go
 
 import (
-	"sort"
+	"golang.org/x/exp/slices"
 	"strings"
 	"testing"
 )
@@ -12,6 +12,8 @@ func TestHtmlRequisites(t *testing.T) {
 	<head>
 		<style>* { background: url('a.jpg'); }</style>
 		<link rel="stylesheet" href="b.css">
+		<link rel="manifest" href="manifest.json">
+		<link rel="shortcut icon" href="favicon.ico">
 		<link href="f.css"> <!-- should be ignored -->
 		<script src="c.js"></script>
 	</head>
@@ -25,24 +27,21 @@ func TestHtmlRequisites(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed to get requisites: %v", err)
 	}
-	sort.SliceStable(urls, func(i, j int) bool {
-		return urls[i].String() < urls[j].String()
-	})
 
-	if len(urls) != 4 {
-		t.Errorf("not the right number of urls found")
+	var foundUrlStrings []string
+	for _, u := range urls {
+		foundUrlStrings = append(foundUrlStrings, u.String())
 	}
 
-	if urls[0].String() != "a.jpg" {
-		t.Errorf("url a.jpg not found")
+	expectedUrls := []string{"a.jpg", "b.css", "c.js", "d.png", "manifest.json", "favicon.ico"}
+
+	if len(urls) != len(expectedUrls) {
+		t.Errorf("not the right number of urls found: found %d, exprected %d", len(foundUrlStrings), len(expectedUrls))
 	}
-	if urls[1].String() != "b.css" {
-		t.Errorf("url b.css not found")
-	}
-	if urls[2].String() != "c.js" {
-		t.Errorf("url c.js not found")
-	}
-	if urls[3].String() != "d.png" {
-		t.Errorf("url d.png not found")
+
+	for _, expectedUrl := range expectedUrls {
+		if !slices.Contains(foundUrlStrings, expectedUrl) {
+			t.Errorf("url %s not found", expectedUrl)
+		}
 	}
 }
